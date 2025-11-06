@@ -4,32 +4,44 @@
 #This script was developed by Carlos Roque (LNEC) with some "polishing" by Filipe Moura.
 #(v.2022)
   
-  #### Example exercise: Run-Off-Road crashes occured in Portuguese freeways 
-  ##### during 2009 and 2010, provided by the National Road Safety Authority (ANSR).
+  #### Example exercise: Road Accident Records in Kensington and Chelsea (January 2021)
   
 #  **Your task**: Estimate a Ordered Discrete Choice model that detects_
 #the unforgiving roadside contributors to different severity levels of crashes.
 
 #### Variables:
 
-#-   `CHOICE_ORD`: severity levels of accidentes (PDO = 1; Light injury = 2; severe injury and death = 3);
-#-   `Winter`: crash occured during the winter;
-#-   `peak1820`: crash occured during the peak hour;
-#-   `valeta`: collision with a ditch as first harmful event;
-#-   `Curva`: crash occured in a right curve (= 1);
-#-   `ACDIR`: leaving the road to the right side of the carriageway;
-#-   `capota`: crash resulted in a rollover;
-#-   `veic1`: crash involved another passenger car;
-#-   `age`: driver's age;
-#-   `age32`: driver under 32 years;
-#-   `age26`: driver under 26 years;
-#-   `age23`: driver under 23 years;
-#-   `age21`: driver under 21 years;
-#-   `gender`: driver's gender (female =1);
-#-   `NOBST`: # of obstacles hit in a ROR crash;
-#-   `LVEL`: segment speed limit;
-#-   `NOCUP`: # of persons involved in the accident.
-#-   `TXALC`: the driver's blood alcohol level.
+# ´Accident_Index´: A unique identifier for each accident record.
+# ´Accident Date´: The date on which the accident occurred (format: DD/MM/YYYY).
+# ´Day_of_Week´: The day of the week when the accident took place.
+# ´Junction_Control´: Describes the type of junction control at the accident location (e.g., "Give way or uncontrolled").
+# ´Junction_Detail´: Provides additional details about the junction where the accident occurred (e.g., "T or staggered junction").
+# ´Accident_Severity´: Indicates the severity of the accident (e.g., "Serious").
+# ´Latitude´: The geographic latitude of the accident location.
+# ´Light_Conditions´: Describes the lighting conditions at the time of the accident (e.g., "Daylight").
+# ´Local_Authority_(District)´: The local authority district where the accident occurred.
+# ´Carriageway_Hazards´: Describes any hazards present on the carriageway at the time of the accident 
+#  (e.g., "None").
+# ´Longitude´: The geographic longitude of the accident location.
+# ´Number_of_Casualties´: The total number of casualties involved in the accident.
+
+Number_of_Vehicles: The total number of vehicles involved in the accident.
+
+Police_Force: The police force that handled the accident.
+
+Road_Surface_Conditions: Describes the surface conditions of the road at the time of the accident (e.g., "Dry").
+
+Road_Type: Specifies the type of road where the accident occurred (e.g., "One way street").
+
+Speed_limit: The speed limit applicable to the road where the accident occurred.
+
+Time: The time of day when the accident happened (format: HH:MM).
+
+Urban_or_Rural_Area: Indicates whether the accident occurred in an urban or rural area.
+
+Weather_Conditions: Describes the weather conditions at the time of the accident (e.g., "Fine no high winds").
+
+Vehicle_Type: Specifies the type of vehicle involved in the accident (e.g., "Car," "Taxi/Private hire car").
 
 ##### Import Libraries
 library(readr)
@@ -38,6 +50,10 @@ library(VGAM)
 
 
 ##### Import dataset
+data <- read.csv("Data/Road Accident Severity Data.csv")
+
+str(data)
+
 data_3lev <- read.delim("/Volumes/HD2/Documents_20200412/Aulas/TDM/Examples/ODCM_example/example_croque/Data_freeways_2009_2010_3levels_v1.txt")
 head(data_3lev)
 View(data_3lev)
