@@ -3,7 +3,7 @@
   
   #### Example exercise:  This data set is collected from Addis Ababa Sub-city police departments 
 # for master's research work. The data set has been prepared from manual records of road traffic accidents
-# of the year 2017-20.
+# of the year 2017-2020.
   
 #  **Your task**: Estimate a Ordered Discrete Choice model 
 # Source: https://www.kaggle.com/datasets/kanuriviveknag/road-accidents-severity-dataset?resource=download 
@@ -94,7 +94,11 @@ data_original <- read.csv("Data/RTA Dataset.csv")
                 link = "logit")
   
   summary(model1)
- 
+
+  # Brant test: 
+  library(gofcat)
+  brant.test(model1)  
+   
 # Check if model_1 is better than the null model 
 anova(model_null, model1)  
    
@@ -131,6 +135,12 @@ ggplot(df, aes(x = latent, y = density)) +
 
 # Calculate the odd ratios
 exp(coef(model1))
+
+
+
+
+
+
 
 
 
