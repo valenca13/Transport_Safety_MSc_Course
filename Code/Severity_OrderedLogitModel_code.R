@@ -1,104 +1,150 @@
 #Ordered Discrete Choice models
 #================
-
-#This script was developed by Carlos Roque (LNEC) with some "polishing" by Filipe Moura.
-#(v.2022)
   
-  #### Example exercise: Road Accident Records in Kensington and Chelsea (January 2021)
+  #### Example exercise:  This data set is collected from Addis Ababa Sub-city police departments 
+# for master's research work. The data set has been prepared from manual records of road traffic accidents
+# of the year 2017-20.
   
-#  **Your task**: Estimate a Ordered Discrete Choice model that detects_
-#the unforgiving roadside contributors to different severity levels of crashes.
-
+#  **Your task**: Estimate a Ordered Discrete Choice model 
+# Source: https://www.kaggle.com/datasets/kanuriviveknag/road-accidents-severity-dataset?resource=download 
 #### Variables:
 
-# ´Accident_Index´: A unique identifier for each accident record.
-# ´Accident Date´: The date on which the accident occurred (format: DD/MM/YYYY).
-# ´Day_of_Week´: The day of the week when the accident took place.
-# ´Junction_Control´: Describes the type of junction control at the accident location (e.g., "Give way or uncontrolled").
-# ´Junction_Detail´: Provides additional details about the junction where the accident occurred (e.g., "T or staggered junction").
-# ´Accident_Severity´: Indicates the severity of the accident (e.g., "Serious").
-# ´Latitude´: The geographic latitude of the accident location.
-# ´Light_Conditions´: Describes the lighting conditions at the time of the accident (e.g., "Daylight").
-# ´Local_Authority_(District)´: The local authority district where the accident occurred.
-# ´Carriageway_Hazards´: Describes any hazards present on the carriageway at the time of the accident 
-#  (e.g., "None").
-# ´Longitude´: The geographic longitude of the accident location.
-# ´Number_of_Casualties´: The total number of casualties involved in the accident.
-
-Number_of_Vehicles: The total number of vehicles involved in the accident.
-
-Police_Force: The police force that handled the accident.
-
-Road_Surface_Conditions: Describes the surface conditions of the road at the time of the accident (e.g., "Dry").
-
-Road_Type: Specifies the type of road where the accident occurred (e.g., "One way street").
-
-Speed_limit: The speed limit applicable to the road where the accident occurred.
-
-Time: The time of day when the accident happened (format: HH:MM).
-
-Urban_or_Rural_Area: Indicates whether the accident occurred in an urban or rural area.
-
-Weather_Conditions: Describes the weather conditions at the time of the accident (e.g., "Fine no high winds").
-
-Vehicle_Type: Specifies the type of vehicle involved in the accident (e.g., "Car," "Taxi/Private hire car").
+str(data)
+#' *´Time´: 
+# ´Day_of_week´:
+# ´Age_band_of_driver´:
+#
 
 ##### Import Libraries
-library(readr)
 library(ordinal)
+library(rcompanion)
+library(MASS)
 library(VGAM)
-
+library(tidyverse)
+library(ggplot2)
 
 ##### Import dataset
-data <- read.csv("Data/Road Accident Severity Data.csv")
+# data_original <- read.csv("Data/Road_Accident_Severity_Clean.csv")
+data_original <- read.csv("Data/RTA Dataset.csv")
+  # Create database for manipulation
+  data <- data_original
 
-str(data)
+  str(data)
 
-data_3lev <- read.delim("/Volumes/HD2/Documents_20200412/Aulas/TDM/Examples/ODCM_example/example_croque/Data_freeways_2009_2010_3levels_v1.txt")
-head(data_3lev)
-View(data_3lev)
+#### Reclassify variables 
 
-attach(data_3lev)
+  # Dependent variable
+  # data$Accident_Severity <- factor(data$Accident_Severity, levels = c("Slight", "Serious", "Fatal"))
+  # data$Accident_Severity <- as.ordered(data$Accident_Severity)
 
-####Reclassify variables 
-#####lhs variable
-CHOICE_ORD<- as.factor(CHOICE_ORD)
-CHOICE_ORD <- as.ordered(CHOICE_ORD)
+  data$Accident_severity <- factor(data$Accident_severity, levels = c("Slight Injury", "Serious Injury", "Fatal injury"))
+  data$Accident_severity <- as.ordered(data$Accident_severity)
+  
+  str(data$Accident_severity)
 
-#####rhs variables
-CAPOTA <- as.factor(CAPOTA)
-WINTER <- as.factor(WINTER)
-GENDER <- as.factor(GENDER)
-ACDIR <- as.factor(ACDIR)
-VEIC1 <- as.factor(VEIC1)
-PEAK1820 <- as.factor(PEAK1820)
-AGE32 <- as.factor(AGE32)
-AGE21 <- as.factor(AGE21)
-AGE23 <- as.factor(AGE23)
-AGE26 <- as.factor(AGE26)
-VALETA <- as.factor(VALETA)
-AGE <- as.integer(AGE)
-NOCUP <- as.integer(NOCUP)
-LVEL <- as.numeric(LVEL)
+  levels(data$Accident_severity)
 
-#models
+  # Create ID
 
-##Determining the null model, assuming that a parallel regression is possible
-null <- vglm(CHOICE_ORD ~ 1, family=cumulative(parallel=TRUE, reverse = TRUE), data = data_3lev)
-summary(null)
+  # data$ID <- seq_len(nrow(data)) 
+  
+  # Relocate ID to first column
+  # data <- data %>% select(ID, everything())
 
-##1st model (logit)
-fit1 <- vglm(CHOICE_ORD ~ NOCUP + GENDER + WINTER + ACDIR+ VEIC1 + NOBST + CAPOTA + VALETA + AGE32 + PEAK1820, family=cumulative(parallel=TRUE, reverse = TRUE), data = data_3lev)
-summary(fit1)
-coef(fit1) #returns the intercepts (cut-off) and variables parameters only
-coef(fit1, matrix= TRUE) #returns the intercepts (cut-off) and variables parameters only in a mtrix for each category
-deviance(fit1)
+  str(data)
+  
+  # Check Missing data
+  table(is.na(data))
+  
+  # Independent variables
+
+  data$Day_of_week <- as.factor(data$Day_of_week)
+  data$Educational_level <- as.factor(data$Educational_level)
+  data$Driving_experience <- as.factor(data$Driving_experience)
+  data$Weather_conditions <- as.factor(data$Weather_conditions)
+  data$Type_of_collision <- as.factor(data$Type_of_collision)                               
+  # Check the structure of the data
+  str(data)
+  
+  # Check the levels of the variables
+  levels(data$Light_Conditions)
+  
+  #Note: Missing data will influence the number of levels. Should we treat them? 
+
+# Models
+
+  ##Determining the null model, assuming that a parallel regression is possible
+
+  model_null <- clm(Accident_severity ~ 1, 
+                    data = data,
+                    link = "logit")
+  
+  summary(model_null)
+  
+# Model with predictors
+  
+  model1 <- clm(Accident_severity ~ Day_of_week +
+                  Educational_level +
+                  Driving_experience +
+                  Weather_conditions +
+                  Number_of_vehicles_involved +
+                  Type_of_collision +
+                  Number_of_casualties,
+                data = data,
+                link = "logit")
+  
+  summary(model1)
+ 
+# Check if model_1 is better than the null model 
+anova(model_null, model1)  
+   
+# Calculate pseudo R square
+nagelkerke(fit = model1,
+           null = model_null)
+
+# Plot thresholds coeficients
+
+# Threshold values from your model
+tau1 <- model1$coefficients[1]  #Slight Injury|Serious Injury
+tau2 <- model1$coefficients[2]  #Serious Injury|Fatal injury
+
+# Create a fake latent severity range
+latent <- seq(-2, 6, length.out = 500)
+density <- dnorm(latent, mean = 0, sd = 1.5)  # just for illustration
+
+# Make data frame for plotting
+df <- data.frame(latent, density)
+
+ggplot(df, aes(x = latent, y = density)) +
+  geom_line(size = 1) +
+  geom_vline(xintercept = tau1, color = "orange", linetype = "dashed", linewidth = 1) +
+  geom_vline(xintercept = tau2, color = "red", linetype = "dashed", linewidth = 1) +
+  annotate("text", x = -1, y = 0.18, label = "Slight Injury", size = 4, color = "darkgreen") +
+  annotate("text", x = 2.7, y = 0.18, label = "Serious Injury", size = 4, color = "orange") +
+  annotate("text", x = 5.0, y = 0.18, label = "Fatal Injury", size = 4, color = "red") +
+  labs(
+    title = "Latent Severity Scale in Ordered Logit Model",
+    x = "Latent severity (Y*)",
+    y = "Probability density"
+  ) +
+  theme_minimal(base_size = 14)
+
+# Calculate the odd ratios
+exp(coef(model1))
+
+
+
+
+summary(model1)
+coef(model1) #returns the intercepts (cut-off) and variables parameters only
+coef(model1, matrix= TRUE) #returns the intercepts (cut-off) and variables parameters only in a matrix for each category
+deviance(model1)
 
 ##2nd model (probit)
 fit2 <- vglm(CHOICE_ORD ~ WINTER + PEAK1820  + NOBST + VALETA + NOCUP + ACDIR+ CAPOTA + VEIC1 + AGE32  + GENDER, family=cumulative(parallel = FALSE ~GENDER, reverse = TRUE), data = data_3lev)
 summary(fit2)
 coef(fit2)#returns the variables parameters only
-coef(fit2, matrix= TRUE) #returns the intercepts (cut-off) and variables parameters only in a mtrix for each category
+coef(fit2, matrix= TRUE) #returns the intercepts (cut-off) and variables parameters only in a matrix for each category
 deviance(fit2)
 
 #Testing the parallelism assumption
