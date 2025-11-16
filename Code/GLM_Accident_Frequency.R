@@ -26,7 +26,7 @@ library(popbio) # calculate elasticities
 
 #' 
 #' ##### Import dataset
-dataset <- read_excel("Data/GZLM_CALMICH_Example.xlsX")
+dataset <- read_excel("Data/GLZM_CALMICH_Example.xlsX")
 view(dataset)
 
 #' The dataset looks weird. It is better to import it again, using the RStudio menus, as follows:
@@ -38,7 +38,7 @@ view(dataset)
 #'    5. This will generate a code, which you can copy and use it the next time you open the file. 
 #' 
 #' Therefore, here is the given code:
-dataset <- read_excel("Data/TDM_GZLM_CALMICH_Example.xlsx", skip = 5) #skipping the first 5 rows
+dataset <- read_excel("Data/GLZM_CALMICH_Example.xlsx", skip = 5) #skipping the first 5 rows
 view(dataset)
 
 #'  
@@ -94,7 +94,8 @@ gf<-goodfit(df$ACCIDENT,  type= "poisson", method= "ML") #Maximum Likelihood met
 summary(gf)
 
 #' 
-#' > **Note**: The null hypothesis is that it is a Poisson distribution. Therefore, for it to be a Poisson distribution, the pvalue > 0.05.
+#' > **Note**: The null hypothesis is that it is a Poisson distribution. 
+#' Therefore, for it to be a Poisson distribution, the pvalue > 0.05.
 #' 
 #' ### Different models  
 #' There are many families and links that can be used, depending on the characteristics of your data.
@@ -106,7 +107,9 @@ summary(gf)
 #' 
 #' #### 1. Poisson model
 #' We start by declaring what type of modelling we are performing. `gml()` stands for Generalized Linear Models.  
-#' The dependent variable should be declared before an `~` and then all the independent variables we want to try. If you want to try with all the variables in the dataset without any changes, you can just write `~ .` and the dot assumes that are _all the other_.
+#' The dependent variable should be declared before an `~` and then all the independent variables we want to try. 
+#' If you want to try with all the variables in the dataset without any changes, you can just write `~ .` 
+#' and the dot assumes that are _all the other_.
 
 model1 = glm(
   ACCIDENT ~ STATE + AADT2 + MEDIAN + DRIVE + offset(log(AADT1)),
@@ -136,7 +139,8 @@ nagelkerke(model1)
 
 #' The likelihood ratio test (Omnibus test) compares the fitted model ("Model") with the only-intercept model ("Null"). This test verifies if the explained variance is higher than the the unexplained variance.
 #' 
-#' > **Note**: $h_0$ There is no overdispersion in the model. Therefore, if pvalue < 0.05, there is overdispersion, and we should choose to use a Negative Binomial model.
+#' > **Note**: H0 there is no overdispersion in the model. Therefore, if pvalue < 0.05, there is overdispersion, 
+#' and we should choose to use a Negative Binomial model.
 #' 
 #' ##### Wald test  
 #' Calculate the Type III test.
@@ -200,3 +204,4 @@ elasticity <- data.frame(variable = c("AADT1", "AADT2", "MEDIAN", "DRIVE"),
 
 
 #' > **Note:** `AADT1` does not have a value because it is the offset of the model.
+#' A 1% increase in AADT2 is associated with only about a 0.13% increase in accidents.

@@ -18,8 +18,8 @@ for modelling crash frequency and severity models.
 
 ![](RmdFiles/CERIS_PT.jpg)
 
-1.  Frequency crash modelling:
+1.  Accident Frequency modelling:
 
-- [Data](Data/GLZM_CALMICH_Example.xlsx)
-- [Code for Poisson and Negative Binomial
-  models](Code/GLM_Accident_Frequeny.R)
+- The [Data](Data/GLZM_CALMICH_Example.xlsx) used in class.
+- The [Code](Code/GLM_Accident_Frequency.R) for Poisson and Negative
+  Binomial models.
