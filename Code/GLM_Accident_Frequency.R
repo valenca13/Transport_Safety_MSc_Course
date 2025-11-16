@@ -19,14 +19,14 @@ library(skimr) # summary statistics
 library(tidyverse) # Pack of useful tools
 library(DataExplorer) # Exploratory data analysis
 library(MASS) # Negative binomial regression
-library(vcd) # Godness of fit parameters
+library(vcd) # Goodness of fit parameters
 library(car) # Goodness of fit
 library(rcompanion) # Goodness of fit
 library(popbio) # calculate elasticities
 
 #' 
 #' ##### Import dataset
-dataset <- read_excel("Data/TDM_GZLM_CALMICH_Example.xlsX")
+dataset <- read_excel("Data/GZLM_CALMICH_Example.xlsX")
 view(dataset)
 
 #' The dataset looks weird. It is better to import it again, using the RStudio menus, as follows:

@@ -16,3 +16,7 @@ This material is also an open source tutorial for applying R programming for mod
 
 ![](RmdFiles/CERIS_PT.jpg)
 
+1. Frequency crash modelling: 
+
+* [Data](Data/GLZM_CALMICH_Example.xlsx)
+* [Code for Poisson and Negative Binomial models](Code/GLM_Accident_Frequeny.R)
