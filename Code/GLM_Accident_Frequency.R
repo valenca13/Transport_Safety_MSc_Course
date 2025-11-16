@@ -149,34 +149,25 @@ Anova(model1, type = "III", test = "Wald")
 #' 
 #' Type III tests examine the significance of each partial effect. Thus, it considers the significance of an effect with all the other effects in the model. The $\chi^2$ (Chisq) tests the significance of the effect added to the model by having all of the other effects.
 #' 
-#' ### 2. Overdispersed Poisson Model  
-#' Let us correct the standard errors with an overdispersed poisson model.
-model2 = glm(
-  ACCIDENT ~ STATE + AADT2 + MEDIAN + DRIVE + offset(log(AADT1)),
-  family = quasipoisson(link = "log"),
-  data = df,
-  method = "glm.fit"
-)
-summary(model2)
 
 #' 
 #' > **Note**: The estimates are the same, but the standard errors have increased because they are adjusted by the scale parameter.
 #' 
-#' ### 3. Negative Binomial distribution  
+#' ### 2. Negative Binomial distribution  
 #' We use `glm.nb()` for this one.
-model3 = glm.nb(ACCIDENT ~ STATE + AADT2 + MEDIAN + DRIVE + offset(log(AADT1)),
+model2 = glm.nb(ACCIDENT ~ STATE + AADT2 + MEDIAN + DRIVE + offset(log(AADT1)),
                 data = df)
-summary(model3)
+summary(model2)
 
 #' 
 #' ##### Pseudo-Rsquare and Log-likelihood ratio test  
 #' Calculate the pseudo-Rsquare and perform an Omnibus test 
-Anova(model3, type = "III", test = "Wald") 
+Anova(model2, type = "III", test = "Wald") 
 
 #' 
 #' ##### Wald test  
 #' Calculate the Type III test.
-nagelkerke(model3)
+nagelkerke(model2)
 
 #' 
 #' #### Comparing model 1 and model 3
@@ -185,9 +176,8 @@ nagelkerke(model3)
 #' Akaike’s Information Criteria (AIC) and Bayesian Information Criteria (BIC) evaluates the quality of a finite set of models.  
 #' AIC and BIC consider the maximum likelihood and the number of parameters in assessing the quality of the models. Nonetheless, the difference between both methods is that the BIC takes into account the number of observations of dataset.  
 #' Calculate the AIC and the BIC.
-aic <- data.frame(model1 = AIC(model1), model3 = AIC(model3))
-bic <- data.frame(model1 = BIC(model1), model3 = BIC(model3))
-
+aic <- data.frame(model1 = AIC(model1), model2 = AIC(model2))
+bic <- data.frame(model1 = BIC(model1), model2 = BIC(model2))
 
 #' 
 #' > **Note**: The smaller the values of AIC and BIC, the better the model 
