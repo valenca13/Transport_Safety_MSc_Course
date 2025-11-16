@@ -30,7 +30,8 @@ data_original <- read.csv("Data/RTA Dataset.csv")
   data <- data_original
 
   str(data)
-
+  
+  
 #### Reclassify variables 
 
   # Dependent variable
