@@ -94,8 +94,10 @@ gf<-goodfit(df$ACCIDENT,  type= "poisson", method= "ML") #Maximum Likelihood met
 summary(gf)
 
 #' 
-#' > **Note**: The null hypothesis is that it is a Poisson distribution. 
-#' Therefore, for it to be a Poisson distribution, the pvalue > 0.05.
+#' > **Note**: The null hypothesis is that the mean is equal to the variance 
+#' and Poisson distribution is the best choice. 
+#' Therefore, for it to be a Poisson distribution, the pvalue > 0.05. 
+#' If not, negative-binomial is a better option.
 #' 
 #' ### Different models  
 #' There are many families and links that can be used, depending on the characteristics of your data.
