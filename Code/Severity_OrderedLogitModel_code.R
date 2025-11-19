@@ -26,23 +26,9 @@ data_original <- read.csv("Data/RTA Dataset.csv")
 # Create database for manipulation
   data <- data.frame(data_original)
 
-  str(df)
+  str(data)
   
-# # Check the age range of the driver, and filter for 18-30. 
-#   unique(df$Age_band_of_driver)
-# 
-#   # Convert to factor (it is currently a string)
-#   df$Age_band_of_driver <- as.factor(df$Age_band_of_driver)
-#   
-#   #Filter observations
-#   data <- df[df$Age_band_of_driver == c("18-30", "Under 18"), ]
-# 
-#   #Check the observations:
-#   unique(data$Age_band_of_driver)
-#   
-# #Note: Now that you have filtered the dataset, Age_band_of_driver cannot be used in the model. 
-  
-  #### Reclassify variables 
+#### Reclassify variables 
   
   #Check the unique values of the Dependent variable
   unique(data$Accident_severity)
@@ -159,7 +145,9 @@ data_original <- read.csv("Data/RTA Dataset.csv")
 
 # Check if model_1 is better than the null model 
 anova(model_null, model1)  
-   
+
+# Note: the null hypothesis is: all the predictors have no effect on accident severity.
+
 # Calculate pseudo R square
 nagelkerke(fit = model1,
            null = model_null)
