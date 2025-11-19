@@ -28,5 +28,5 @@ for modelling crash frequency and severity models.
 2.  Severity Levels of Accidents Models:
 
 - The [Data](Data/RTA%20Dataset.csv) used in class.
-- The [Code](Severity_OrderedLogitModel_code.R) for Ordered Logit
+- The [Code](Code/Severity_OrderedLogitModel_code.R) for Ordered Logit
   Regression models.

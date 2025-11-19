@@ -26,4 +26,4 @@ This material is also an open source tutorial for applying R programming for mod
 2. Severity Levels of Accidents Models: 
 
 * The [Data](Data/RTA Dataset.csv) used in class.
-* The [Code](Severity_OrderedLogitModel_code.R) for Ordered Logit Regression models. 
+* The [Code](Code/Severity_OrderedLogitModel_code.R) for Ordered Logit Regression models. 
