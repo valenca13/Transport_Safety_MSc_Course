@@ -14,19 +14,19 @@ Valença](https://ushift.tecnico.ulisboa.pt/team-gabriel-valenca/).
 This material is also an open source tutorial for applying R programming
 for modelling crash frequency and severity models.
 
-> The codes were developed by Prof. Gabriel Valença and taught during
-> the practical lectures.
+<img src="RmdFiles/DeCivil.png" style="width:30.0%" />
 
-![](RmdFiles/CERIS_PT.jpg)
-
-1.  Accident Frequency Models:
+**1. Modelling the Frequency of Traffic Accidents**:
 
 - The [Data](Data/GLZM_CALMICH_Example.xlsx) used in class.
 - The [Code](Code/GLM_Accident_Frequency.R) for Poisson and Negative
   Binomial models.
 
-2.  Severity Levels of Accidents Models:
+**2. Modelling the Severity Levels of Traffic Accidents**:
 
 - The [Data](Data/RTA%20Dataset.csv) used in class.
 - The [Code](Code/Severity_OrderedLogitModel_code.R) for Ordered Logit
   Regression models.
+
+> The codes were developed by Prof. Gabriel Valença and are taught
+> during the practical lectures.
