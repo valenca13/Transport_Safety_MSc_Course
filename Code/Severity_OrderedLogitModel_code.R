@@ -1,11 +1,10 @@
 #Ordered Logistic Regression models
 #================
   
-  #### Example exercise:  This data set is collected from Addis Ababa (Etiopia) Sub-city police departments 
-# for master's research work. The data set has been prepared from manual records of road traffic accidents
-# of the year 2017-2020.
+  #### Example exercise:  This data set is collected from Addis Ababa (Etiopia) Sub-city police departments. 
+# The data set has been prepared from manual records of road traffic accidents of the year 2017-2020.
   
-#  **Your task**: Estimate a Ordered Discrete Choice model by examining the attributes that 
+# Your task: Estimate a Ordered Discrete Choice model by examining the attributes that 
 # influence the severity of accidents. 
 
 # Source: https://www.kaggle.com/datasets/kanuriviveknag/road-accidents-severity-dataset?resource=download 
@@ -44,6 +43,8 @@ data_original <- read.csv("Data/RTA Dataset.csv")
   
   # Check Missing data
   table(is.na(data))
+  
+  #Note: No missing data is revealed because categorical variables are characters (e.g., missing data value = "")
 
   # Independent variables
 
@@ -52,19 +53,32 @@ data_original <- read.csv("Data/RTA Dataset.csv")
   data$Weather_conditions <- as.factor(data$Weather_conditions)
   data$Type_of_collision <- as.factor(data$Type_of_collision)  
   
-# Try doing the other variables
+  ## Note: In this example, we are only using these variables, but the other variables that are "character" also need to be converted into factors.
+  
+  # Try doing the other variables
   
   # Check the structure of the data
   str(data)
   
   # Check the levels of the variables
   levels(data$Sex_of_driver)
-
+  levels(data$Educational_level)
+  levels(data$Weather_conditions)
+  levels(data$Type_of_collision)
+  
+  # Check missing data
+  
+  table(is.na(data))
+  
+  ## Note: In practice, the "Unknown" and "" should be treated. 
+  
+  ## Exercise: Remove the "Unknown" and the "". 
+  
 # Models
 
-  ##Determining the null model (baseline cummulative logit model).
+  ##Determining the null model (baseline cumulative logit model).
 
-  model_null <- clm(Accident_severity ~ 1,  # CLM -> Cumulative Link Model = Ordinal logistic model.
+  model_null <- clm(Accident_severity ~ 1,  # CLM -> Cumulative Link Model (proportional odds model) = Ordinal logistic model.
                     data = data,
                     link = "logit")
   
