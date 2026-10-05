@@ -87,17 +87,16 @@ data_original <- read.csv("Data/RTA Dataset.csv")
   # Since you have no predictors, the model is simply estimating the cutpoints (thresholds) 
   # on the latent severity scale that separate the ordered categories.
   
-  # A threshold of 1.70 means that the cutoff between
-  # "Slight Injury" and "Serious or Fatal" lies at log-odds = 1.70.
+  # A threshold of 1.70 indicates the estimated cutoff on the latent logit scale between "Slight Injury" and "Serious Injury or Fatal Injury".
   
-  # Convert thresholds to probabilities: 
+  # Convert estimates thresholds to probabilities: 
   
   plogis(model_null$coefficients[1])
   
   plogis(model_null$coefficients[2])
   
   #So if you have a value on the log-odds scale, 
-  # plogis() applies the inverse logit funciton and converts it to a probability between 0 and 1.
+  # plogis() applies the inverse logit function and converts it to a probability between 0 and 1 (check the formula).
   
   # Meaning: 
   # P(Slight Injury) ≈ 84.5%
@@ -123,11 +122,11 @@ data_original <- read.csv("Data/RTA Dataset.csv")
   # Note: Positive coefficient → increases odds of more severe injury.
   #       Negative coefficient → reduces odds of more severe injury.
 
-##### TASK IN CLASS: Convert the threshold coefficients to probabilities. 
+# Exercise: Convert the threshold coefficients to probabilities. 
   
   #Calculate the Odds ratios: 
   
-  exp(coef(model1))
+  exp(coef(model1))["Number_of_vehicles_involved"]
   
   # OR of Number of vehicles involved is 0.64, meaning that
   # there is a ~35% lower odds of more severe injury per extra vehicle.
@@ -150,9 +149,9 @@ data_original <- read.csv("Data/RTA Dataset.csv")
   
   plot.xmean.ordinaly(Accident_severity ~ 
                         # Sex_of_driver +
-                        Number_of_vehicles_involved, 
-                        # Weather_conditions +
-                        # Type_of_collision, 
+                        Number_of_vehicles_involved,
+                        # Weather_conditions + 
+                        # Type_of_collision,
                         data = data)
   
   # Only reliable with continuous predictors.
